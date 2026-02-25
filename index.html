@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent 军团看板</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #0a0a0f; color: white; }
+    .card { background-color: #12121a; border: 1px solid #2a2a35; }
+    .card:hover { border-color: #3b3b45; }
+    .status-online { color: #22c55e; }
+    .status-running { color: #f59e0b; }
+    .status-standby { color: #6b7280; }
+    .status-error { color: #ef4444; }
+    .priority { border-color: #f59e0b; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Header -->
+  <header class="bg-[#12121a] border-b border-[#2a2a35]">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-xl font-bold">怀洋超级智能体军团 · 指挥看板</h1>
+          <p class="text-sm text-gray-400" id="datetime"></p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm">
+            <i class="fas fa-paper-plane mr-2"></i>发送指令
+          </button>
+          <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm">
+            <i class="fas fa-cog mr-2"></i>设置
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div class="card rounded-lg p-4">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-green-500/20 rounded-lg">
+            <i class="fas fa-users text-green-500"></i>
+          </div>
+          <div>
+            <p class="text-sm text-gray-400">活跃 Agent</p>
+            <p class="text-xl font-bold">5/8</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card rounded-lg p-4">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-yellow-500/20 rounded-lg">
+            <i class="fas fa-spinner text-yellow-500"></i>
+          </div>
+          <div>
+            <p class="text-sm text-gray-400">运行中任务</p>
+            <p class="text-xl font-bold">2</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card rounded-lg p-4">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-blue-500/20 rounded-lg">
+            <i class="fas fa-microchip text-blue-500"></i>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm text-gray-400">今日 Token</p>
+            <div class="flex items-center gap-2">
+              <p class="text-xl font-bold">46.8K</p>
+              <span class="text-xs text-gray-500">/ 100K</span>
+            </div>
+            <div class="mt-2 h-1.5 bg-gray-800 rounded-full">
+              <div class="h-full bg-yellow-500 rounded-full" style="width: 46.8%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card rounded-lg p-4">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-blue-500/20 rounded-lg">
+            <i class="fas fa-chart-line text-blue-500"></i>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm text-gray-400">本月 Token</p>
+            <div class="flex items-center gap-2">
+              <p class="text-xl font-bold">1.2M</p>
+              <span class="text-xs text-gray-500">/ 2M</span>
+            </div>
+            <div class="mt-2 h-1.5 bg-gray-800 rounded-full">
+              <div class="h-full bg-blue-500 rounded-full" style="width: 60%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Priority Agent -->
+    <div class="mb-6">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-yellow-500">⭐</span>
+        <h2 class="text-lg font-semibold">当前重点</h2>
+      </div>
+      <div class="card priority rounded-lg p-4">
+        <div class="flex items-start justify-between mb-3">
+          <div>
+            <h3 class="font-semibold">Agent 7 · Seer</h3>
+            <p class="text-xs text-gray-400">史官先知</p>
+          </div>
+          <span class="px-2 py-1 bg-yellow-500/20 text-yellow-500 rounded-full text-xs">
+            <i class="fas fa-spinner fa-spin mr-1"></i>运行中
+          </span>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-400">当前任务:</span>
+            <span>千里江山角色优化</span>
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-400">进度</span>
+              <span>15%</span>
+            </div>
+            <div class="h-1.5 bg-gray-800 rounded-full">
+              <div class="h-full bg-yellow-500 rounded-full" style="width: 15%"></div>
+            </div>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Token(今日):</span>
+            <span>3.0K</span>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-gray-800">
+          <p class="text-xs text-gray-400">今日产出: 读取25章正文+角色分析中</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Grid -->
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold mb-3">Agent 状态矩阵</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Mirror -->
+        <div class="card rounded-lg p-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="font-semibold text-sm">Agent 0 · Mirror</h3>
+              <p class="text-xs text-gray-400">总指挥</p>
+            </div>
+            <span class="px-2 py-1 bg-green-500/20 text-green-500 rounded-full text-xs">
+              <i class="fas fa-check-circle mr-1"></i>在线
+            </span>
+          </div>
+          <div class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">任务:</span>
+              <span class="text-xs truncate max-w-[100px]">等待指令</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">Token:</span>
+              <span class="text-xs">15.2K</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">评分:</span>
+              <span class="text-xs">8.5/10</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scout -->
+        <div class="card rounded-lg p-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="font-semibold text-sm">Agent 1 · Scout</h3>
+              <p class="text-xs text-gray-400">商机猎手</p>
+            </div>
+            <span class="px-2 py-1 bg-yellow-500/20 text-yellow-500 rounded-full text-xs">
+              <i class="fas fa-spinner fa-spin mr-1"></i>运行
+            </span>
+          </div>
+          <div class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">任务:</span>
+              <span class="text-xs truncate max-w-[100px]">AI商机扫描</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-400">进度</span>
+              <span>67%</span>
+            </div>
+            <div class="h-1 bg-gray-800 rounded-full">
+              <div class="h-full bg-yellow-500 rounded-full" style="width: 67%"></div>
+            </div>
+            <div class="flex justify-between pt-1">
+              <span class="text-gray-400 text-xs">Token:</span>
+              <span class="text-xs">8.5K</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forge -->
+        <div class="card rounded-lg p-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="font-semibold text-sm">Agent 2 · Forge</h3>
+              <p class="text-xs text-gray-400">产品工匠</p>
+            </div>
+            <span class="px-2 py-1 bg-gray-500/20 text-gray-400 rounded-full text-xs">
+              <i class="fas fa-pause mr-1"></i>待机
+            </span>
+          </div>
+          <div class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">任务:</span>
+              <span class="text-xs">-</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">Token:</span>
+              <span class="text-xs">0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">评分:</span>
+              <span class="text-xs text-green-500">9/10 ⭐</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Oracle -->
+        <div class="card rounded-lg p-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="font-semibold text-sm">Agent 3 · Oracle</h3>
+              <p class="text-xs text-gray-400">投资军师</p>
+            </div>
+            <span class="px-2 py-1 bg-green-500/20 text-green-500 rounded-full text-xs">
+              <i class="fas fa-check-circle mr-1"></i>在线
+            </span>
+          </div>
+          <div class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">任务:</span>
+              <span class="text-xs truncate max-w-[100px]">市场简报已生成</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">Token:</span>
+              <span class="text-xs">3.2K</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">评分:</span>
+              <span class="text-xs">7/10</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cupid -->
+        <div class="card rounded-lg p-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="font-semibold text-sm">Agent 4 · Cupid</h3>
+              <p class="text-xs text-gray-400">红线猎手</p>
+            </div>
+            <span class="px-2 py-1 bg-gray-500/20 text-gray-400 rounded-full text-xs">
+              <i class="fas fa-pause mr-1"></i>待机
+            </span>
+          </div>
+          <div class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">任务:</span>
+              <span class="text-xs">-</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">Token:</span>
+              <span class="text-xs">0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">评分:</span>
+              <span class="text-xs">6/10</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Radio -->
+        <div class="card rounded-lg p-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="font-semibold text-sm">Agent 5 · Radio</h3>
+              <p class="text-xs text-gray-400">电台总监</p>
+            </div>
+            <span class="px-2 py-1 bg-green-500/20 text-green-500 rounded-full text-xs">
+              <i class="fas fa-check-circle mr-1"></i>在线
+            </span>
+          </div>
+          <div class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">任务:</span>
+              <span class="text-xs truncate max-w-[100px]">播客#1已发布</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">Token:</span>
+              <span class="text-xs">12K</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">评分:</span>
+              <span class="text-xs">8/10</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chief -->
+        <div class="card rounded-lg p-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="font-semibold text-sm">Agent 6 · Chief</h3>
+              <p class="text-xs text-gray-400">首席幕僚</p>
+            </div>
+            <span class="px-2 py-1 bg-green-500/20 text-green-500 rounded-full text-xs">
+              <i class="fas fa-check-circle mr-1"></i>在线
+            </span>
+          </div>
+          <div class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">任务:</span>
+              <span class="text-xs truncate max-w-[100px]">日程管理(3完成)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">Token:</span>
+              <span class="text-xs">5.1K</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400 text-xs">评分:</span>
+              <span class="text-xs">8/10</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Communication & Commands -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Communication Flow -->
+      <div class="card rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fas fa-comments text-blue-500"></i>
+          <h3 class="font-semibold">Agent 间通信流</h3>
+          <span class="ml-auto text-xs text-gray-400">今日: 23 条</span>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-1 bg-gray-800 rounded text-xs">Scout</span>
+            <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+            <span class="text-gray-400 text-xs">发现商机</span>
+            <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+            <span class="px-2 py-1 bg-gray-800 rounded text-xs">Mirror</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-1 bg-gray-800 rounded text-xs">Oracle</span>
+            <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+            <span class="text-gray-400 text-xs">市场异动</span>
+            <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+            <span class="px-2 py-1 bg-gray-800 rounded text-xs">你</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-1 bg-gray-800 rounded text-xs">Chief</span>
+            <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+            <span class="text-gray-400 text-xs">日程清单</span>
+            <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+            <span class="px-2 py-1 bg-gray-800 rounded text-xs">你</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-1 bg-yellow-500/20 text-yellow-500 rounded text-xs">Seer</span>
+            <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+            <span class="text-gray-400 text-xs">创作进度</span>
+            <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+            <span class="px-2 py-1 bg-gray-800 rounded text-xs">你</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Commands -->
+      <div class="card rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fas fa-terminal text-blue-500"></i>
+          <h3 class="font-semibold">快捷操作</h3>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex items-center justify-between py-2 border-b border-gray-800">
+            <span class="text-gray-400">发送指令</span>
+            <code class="px-2 py-1 bg-gray-800 rounded text-xs">openclaw send &lt;agent&gt; &lt;msg&gt;</code>
+          </div>
+          <div class="flex items-center justify-between py-2 border-b border-gray-800">
+            <span class="text-gray-400">查看日志</span>
+            <code class="px-2 py-1 bg-gray-800 rounded text-xs">openclaw logs &lt;agent&gt;</code>
+          </div>
+          <div class="flex items-center justify-between py-2 border-b border-gray-800">
+            <span class="text-gray-400">暂停任务</span>
+            <code class="px-2 py-1 bg-gray-800 rounded text-xs">openclaw pause &lt;agent&gt;</code>
+          </div>
+          <div class="flex items-center justify-between py-2">
+            <span class="text-gray-400">启动 Agent</span>
+            <code class="px-2 py-1 bg-gray-800 rounded text-xs">openclaw start &lt;agent&gt;</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Update datetime
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('datetime').textContent = 
+        now.toLocaleString('zh-CN') + ' · 运行时间: 2小时15分';
+    }
+    updateTime();
+    setInterval(updateTime, 60000);
+  </script>
+</body>
+</html>
