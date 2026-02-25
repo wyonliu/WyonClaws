@@ -1,0 +1,8 @@
+{
+  "name": "wyonclaws-dashboard",
+  "version": "1.0.0",
+  "description": "怀洋超级智能体军团 · 指挥看板",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  }
+}
